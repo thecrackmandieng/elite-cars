@@ -1,0 +1,74 @@
+:host {
+  --background: #000000;
+}
+
+ion-content {
+  --background: #000000;
+}
+
+ion-toolbar {
+  --background: #1a1a1a;
+  --color: white;
+}
+
+.back-button {
+  --color: white;
+}
+
+.car-image {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.info-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.price-text {
+  color: #ff9500;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.specs-text {
+  color: white;
+  font-size: 14px;
+}
+
+.rating-container {
+  display: flex;
+  align-items: center;
+}
+
+.rating-star {
+  color: #ffd700;
+  margin-right: 4px;
+}
+
+.zone-item, .option-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 4px;
+  display: inline-block;
+}
+
+.fixed-button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background: #000000;
+  z-index: 100;
+}

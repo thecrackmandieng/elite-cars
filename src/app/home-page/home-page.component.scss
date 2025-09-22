@@ -1,0 +1,48 @@
+:host {
+  --background: #000000;
+}
+
+ion-content {
+  --background: #000000;
+}
+
+ion-toolbar {
+  --background: #1a1a1a;
+  --color: white;
+}
+
+.car-card {
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.car-card:hover {
+  transform: scale(1.02);
+}
+
+.car-image {
+  border-radius: 12px 12px 0 0;
+  object-fit: cover;
+}
+
+.car-info {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0 0 12px 12px;
+}
+
+.car-name {
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.car-specs {
+  color: #cccccc;
+  font-size: 14px;
+}
+
+.car-price {
+  color: #ff9500;
+  font-size: 16px;
+  font-weight: bold;
+}

@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title class="text-white text-center font-bold">
+      Favoris
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-black">
+  <!-- Section voitures favorites -->
+  <div class="p-6 bg-black">
+    <div *ngIf="favoriteCars.length === 0" class="text-center p-8">
+      <ion-icon name="heart-outline" size="large" class="text-gray-400 mb-4"></ion-icon>
+      <p class="text-gray-400 text-lg">Aucune voiture en favoris</p>
+      <p class="text-gray-500">Ajoutez des voitures à vos favoris depuis la page d'accueil</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" *ngIf="favoriteCars.length > 0">
+      <div
+        *ngFor="let car of favoriteCars"
+        class="bg-gray-900 rounded-xl overflow-hidden cursor-pointer transform transition-transform hover:scale-105 relative"
+        (click)="onCarClick(car)"
+      >
+        <img [src]="car.image" [alt]="car.name" class="w-full h-40 object-cover">
+        <div class="p-4">
+          <p class="text-gray-300 text-lg font-semibold mb-2" style="text-align: right;">{{ car.specifications }}</p>
+          <h3 class="text-lg font-semibold text-white">{{ car.name }}</h3>
+          <p class="text-yellow-500 font-bold text-lg">{{ car.price.toLocaleString() }} CFA / Jour</p>
+
+        </div>
+
+        <!-- Heart icon for removing from favorites -->
+        <div class="absolute top-3 right-3 rounded-full p-2" (click)="$event.stopPropagation(); toggleFavorite(car)">
+          <ion-icon
+            [name]="car.isFavorite ? 'heart' : 'heart-outline'"
+            class="text-red-500 text-2xl"
+          ></ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+

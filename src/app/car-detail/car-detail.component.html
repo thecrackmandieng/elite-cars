@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/example/home" text="Retour"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="text-white">Détails du véhicule</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-black">
+  <div *ngIf="car" class="p-4">
+    <!-- Image de la voiture -->
+    <div class="mb-4">
+      <img [src]="car.image" [alt]="car.name" class="w-full h-64 object-cover rounded-lg">
+    </div>
+
+    <!-- Informations principales -->
+    <div class="mb-4">
+      <div class="flex justify-between items-start mb-2">
+        <h1 class="text-2xl font-bold text-white">{{ car.name }}</h1>
+        <div class="text-right">
+          <div class="text-orange-500 text-2xl font-bold">{{ car.price.toLocaleString() }} FCFA</div>
+          <div class="text-white text-sm">/ Jour</div>
+        </div>
+      </div>
+
+      <!-- Spécifications -->
+      <div class="flex items-center justify-between mb-4">
+        <div class="text-white">{{ car.specifications }}</div>
+        <div class="flex items-center">
+          <ion-icon name="star" class="text-yellow-500 mr-1"></ion-icon>
+          <span class="text-yellow-500 font-bold">{{ car.rating }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="mb-6">
+      <h2 class="text-white text-lg font-semibold mb-2">Description</h2>
+      <p class="text-gray-300">{{ car.description }}</p>
+    </div>
+
+    <!-- Zones autorisées -->
+    <div class="mb-6">
+      <h2 class="text-white text-lg font-semibold mb-3">Zones Autorisées</h2>
+      <div class="flex flex-wrap gap-2">
+        <div *ngFor="let zone of car.zones" class="flex items-center bg-gray-800 px-3 py-2 rounded-lg">
+          <ion-icon name="location" class="text-yellow-500 mr-2"></ion-icon>
+          <span class="text-white">{{ zone }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Options incluses -->
+    <div class="mb-6">
+      <h2 class="text-white text-lg font-semibold mb-3">Options Incluses</h2>
+      <div class="grid grid-cols-2 gap-3">
+        <div *ngFor="let option of car.options" class="flex items-center bg-gray-800 px-3 py-2 rounded-lg">
+          <ion-icon name="checkmark-circle" class="text-green-500 mr-2"></ion-icon>
+          <span class="text-white text-sm">{{ option }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bouton de réservation -->
+    <div class="fixed bottom-0 left-0 right-0 p-4 bg-black">
+      <ion-button expand="block" color="warning" (click)="onReserve()" class="font-bold bg-white text-black rounded-lg">
+        <ion-icon name="calendar" slot="start"></ion-icon>
+        Réserver
+        <ion-icon name="chevron-forward" slot="end"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

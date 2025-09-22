@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar class="bg-black flex flex-col items-center">
+    <ion-title class="text-white text-center italic font-bold">
+      Elite Cars
+    </ion-title><br><br>
+    <p class="text-gray-400 italic text-sm text-center mt-2">
+      Une expérience client exceptionnelle.
+    </p>
+  </ion-toolbar>
+</ion-header>
+
+<!-- Boutons filtres -->
+<div class="bg-black flex justify-center gap-4 py-4">
+  <ion-button id="open-type" fill="outline" shape="round" class="text-white border-gray-600">
+    Véhicule
+  </ion-button>
+  <ion-button id="open-marque" fill="outline" shape="round" class="text-white border-gray-600">
+    Marque
+  </ion-button>
+  <ion-button id="open-prix" fill="outline" shape="round" class="text-white border-gray-600">
+    Prix
+  </ion-button>
+</div>
+
+<ion-content class="bg-black">
+  <div class="p-6 bg-black">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div
+        *ngFor="let car of filteredCars"
+        class="bg-gray-900 rounded-xl overflow-hidden cursor-pointer transform transition-transform hover:scale-105 relative"
+        (click)="onCarClick(car)"
+      >
+        <img [src]="car.image" [alt]="car.name" class="w-full h-40 object-cover" />
+        <div class="p-4">
+          <p class="text-gray-300 text-lg font-semibold mb-2 text-right">{{ car.options }}</p>
+          <h3 class="text-lg font-semibold text-white">{{ car.name }}</h3>
+          <p class="text-yellow-500 font-bold text-lg">{{ car.price.toLocaleString() }} CFA / Jour</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<!-- Modal Type de véhicule -->
+<ion-modal trigger="open-type" [initialBreakpoint]="0.75" [breakpoints]="[0,0.5,0.75,1]">
+  <ion-content class="bg-gray-900 text-white">
+    <div class="p-4">
+      <h2 class="text-white text-xl font-bold mb-4 text-center">Filtre</h2>
+      <h3 class="text-white text-lg font-semibold mb-3">Type de véhicule</h3>
+      <ion-radio-group [(ngModel)]="selectedType">
+        <ion-list>
+          <ion-item *ngFor="let type of typesVehicules">
+            <ion-radio slot="start" [value]="type" color="primary"></ion-radio>
+            <ion-label class="text-white text-lg">{{ type }}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-radio-group>
+    </div>
+  </ion-content>
+</ion-modal>
+
+<!-- Modal Marques -->
+<ion-modal trigger="open-marque" [initialBreakpoint]="0.75" [breakpoints]="[0,0.5,0.75,1]">
+  <ion-content class="bg-gray-900 text-white">
+    <div class="p-4">
+      <h3 class="text-white text-lg font-semibold mb-3">Marque</h3>
+      <ion-radio-group [(ngModel)]="selectedMarque">
+        <ion-list>
+          <ion-item *ngFor="let marque of marques">
+            <ion-radio slot="start" [value]="marque" color="primary"></ion-radio>
+            <ion-label class="text-white text-lg">{{ marques }}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-radio-group>
+    </div>
+  </ion-content>
+</ion-modal>
+
+<!-- Modal Prix -->
+<ion-modal trigger="open-prix" [initialBreakpoint]="0.75" [breakpoints]="[0,0.5,0.75,1]">
+  <ion-content class="bg-gray-900 text-white">
+    <div class="p-4">
+      <h3 class="text-white text-lg font-semibold mb-3">Prix</h3>
+      <ion-radio-group [(ngModel)]="selectedPrix">
+        <ion-list>
+          <ion-item *ngFor="let prix of prixs">
+            <ion-radio slot="start" [value]="prix" color="primary"></ion-radio>
+            <ion-label class="text-white text-lg">{{ prix }} CFA</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-radio-group>
+    </div>
+  </ion-content>
+</ion-modal>
