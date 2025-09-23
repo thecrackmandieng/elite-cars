@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CarService } from '../services/car.service';
 import { Car } from '../models/car.interface';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon, IonBackButton, IonButtons } from '@ionic/angular/standalone';
@@ -18,6 +18,7 @@ export class CarDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private carService: CarService
   ) { }
 
@@ -27,7 +28,8 @@ export class CarDetailComponent implements OnInit {
   }
 
   onReserve() {
-    // TODO: Implement reservation logic
-    console.log('Réservation demandée pour:', this.car?.name);
+    if (this.car) {
+      this.router.navigate(['/example/reservation', this.car.id]);
+    }
   }
 }

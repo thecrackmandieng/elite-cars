@@ -1,0 +1,86 @@
+ion-content.bg-black {
+  --background: #000;
+}
+
+ion-item {
+  --background: #1a1a1a;
+  --color: #fff;
+  --padding-start: 10px;
+}
+
+ion-datetime {
+  --color: #fff;
+  text-align: center;
+}
+
+ion-radio {
+  --color: #fff;
+  --color-checked: #ff9500;
+}
+
+ion-button {
+  --background: #fff;
+  --color: #000;
+}
+
+ion-input {
+  --color: #fff;
+  text-align: center;
+}
+
+// Calendar icon styling
+.calendar-icon {
+  font-size: 24px !important;
+  margin-right: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.calendar-icon:hover {
+  transform: scale(1.1);
+  color: #ff9500 !important;
+}
+
+// Date picker item styling
+.date-picker-item {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.date-picker-item:hover {
+  border-color: #ff9500;
+  background: rgba(255, 149, 0, 0.1) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3);
+}
+
+.date-input {
+  --color: #fff;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+// Chevron icon styling
+ion-icon[slot="end"] {
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.date-picker-item:hover ion-icon[slot="end"] {
+  color: #ff9500;
+  transform: translateX(4px);
+}
+
+// Duration display styling
+.duration-display {
+  background: #1a1a1a !important;
+  border: 1px solid #333;
+  transition: all 0.3s ease;
+}
+
+.duration-display:hover {
+  border-color: #ff9500;
+  background: rgba(255, 149, 0, 0.05) !important;
+}

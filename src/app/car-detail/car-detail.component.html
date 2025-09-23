@@ -44,10 +44,12 @@
     <div class="mb-6">
       <h2 class="text-white text-lg font-semibold mb-3">Zones Autorisées</h2>
       <div class="flex flex-wrap gap-2">
-        <div *ngFor="let zone of car.zones" class="flex items-center bg-gray-800 px-3 py-2 rounded-lg">
-          <ion-icon name="location" class="text-yellow-500 mr-2"></ion-icon>
-          <span class="text-white">{{ zone }}</span>
-        </div>
+        @for (zone of car.zones; track zone) {
+          <div class="flex items-center bg-gray-800 px-3 py-2 rounded-lg">
+            <ion-icon name="location" class="text-yellow-500 mr-2"></ion-icon>
+            <span class="text-white">{{ zone }}</span>
+          </div>
+        }
       </div>
     </div>
 
@@ -55,10 +57,12 @@
     <div class="mb-6">
       <h2 class="text-white text-lg font-semibold mb-3">Options Incluses</h2>
       <div class="grid grid-cols-2 gap-3">
-        <div *ngFor="let option of car.options" class="flex items-center bg-gray-800 px-3 py-2 rounded-lg">
-          <ion-icon name="checkmark-circle" class="text-green-500 mr-2"></ion-icon>
-          <span class="text-white text-sm">{{ option }}</span>
-        </div>
+        @for (option of car.options; track option) {
+          <div class="flex items-center bg-gray-800 px-3 py-2 rounded-lg">
+            <ion-icon name="checkmark-circle" class="text-green-500 mr-2"></ion-icon>
+            <span class="text-white text-sm">{{ option }}</span>
+          </div>
+        }
       </div>
     </div>
 

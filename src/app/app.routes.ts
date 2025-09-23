@@ -22,6 +22,11 @@ export const routes: Routes = [
           import('./car-detail/car-detail.component').then((m) => m.CarDetailComponent),
       },
       {
+        path: 'reservation/:id',
+        loadComponent: () =>
+          import('./reservation/reservation.component').then((m) => m.ReservationComponent),
+      },
+      {
         path: '',
         redirectTo: '/example/home',
         pathMatch: 'full',

@@ -1,0 +1,166 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button (click)="onBack()" text="Retour"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="text-white">Options de réservation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-black">
+  <!-- Image de la voiture en pleine largeur -->
+  <div class="w-full">
+    <img *ngIf="car" [src]="car.image" [alt]="car.name" class="w-full h-48 object-cover">
+  </div>
+
+  <!-- Détails de la voiture -->
+  <div *ngIf="car" class="p-4">
+    <div class="mb-6">
+      <div class="flex items-center mb-4">
+        <div class="flex-1">
+          <h2 class="text-white text-lg font-bold">{{ car.name }}</h2>
+          <div class="flex items-center justify-between">
+            <div class="text-orange-500 font-bold text-lg">{{ car.price.toLocaleString() }} FCFA/Jour</div>
+            <div class="flex items-center">
+              <ion-icon name="star" class="text-yellow-500 mr-1"></ion-icon>
+              <span class="text-yellow-500 font-bold mr-2">{{ car.rating }}</span>
+              <div class="flex -space-x-1">
+                <div class="w-4 h-4 bg-gray-600 rounded-full border-2 border-gray-800"></div>
+                <div class="w-4 h-4 bg-gray-600 rounded-full border-2 border-gray-800"></div>
+              </div>
+            </div>
+          </div>
+          <div class="text-white text-sm">{{ car.specifications }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Options de réservation -->
+    <div class="mb-6">
+      <h3 class="text-white text-lg font-semibold mb-3">Options de réservation</h3>
+      <ion-radio-group [(ngModel)]="reservation.withDriver" (ionChange)="onDriverOptionChange()">
+        <ion-item lines="none" class="mb-3 bg-gray-800 rounded-lg">
+          <ion-radio slot="start" [value]="false"></ion-radio>
+          <ion-label class="text-white">Sans Chauffeur ({{ driverOptions[0].price.toLocaleString() }} FCFA)</ion-label>
+        </ion-item>
+        <ion-item lines="none" class="bg-gray-800 rounded-lg">
+          <ion-radio slot="start" [value]="true"></ion-radio>
+          <ion-label class="text-white">Avec Chauffeur ({{ driverOptions[1].price.toLocaleString() }} FCFA)</ion-label>
+        </ion-item>
+      </ion-radio-group>
+    </div>
+
+<!-- Date de Début -->
+<div class="mb-6">
+  <h3 class="text-white text-lg font-semibold mb-3">Date de Début</h3>
+  <ion-item lines="none" class="bg-gray-800 rounded-lg mb-4 date-picker-item" (click)="openDateModal('start')">
+    <ion-icon name="calendar-outline" slot="start" class="text-orange-500 calendar-icon" size="large"></ion-icon>
+    <ion-input
+      [(ngModel)]="reservation.startDateDisplay"
+      placeholder="JJ MMM AAAA"
+      readonly
+      class="date-input">
+    </ion-input>
+    <ion-icon name="chevron-forward" slot="end" class="text-gray-400"></ion-icon>
+  </ion-item>
+</div>
+
+<!-- Date de Fin -->
+<div class="mb-6">
+  <h3 class="text-white text-lg font-semibold mb-3">Date de Fin</h3>
+  <ion-item lines="none" class="bg-gray-800 rounded-lg date-picker-item" (click)="openDateModal('end')">
+    <ion-icon name="calendar-outline" slot="start" class="text-orange-500 calendar-icon" size="large"></ion-icon>
+    <ion-input
+      [(ngModel)]="reservation.endDateDisplay"
+      placeholder="JJ MMM AAAA"
+      readonly
+      class="date-input">
+    </ion-input>
+    <ion-icon name="chevron-forward" slot="end" class="text-gray-400"></ion-icon>
+  </ion-item>
+</div>
+
+
+
+
+    <!-- Mode de paiement -->
+<div class="mb-6">
+  <h3 class="text-white text-lg font-semibold mb-3">Mode de paiement</h3>
+  <div class="flex items-center bg-gray-800 p-4 rounded-lg">
+    <img src="assets/wave.png" alt="Wave Image" class="w-12 h-12 mr-4 rounded-full">
+    <span class="text-white text-lg">Wave</span>
+  </div>
+</div>
+
+    <!-- Montant d'avance -->
+    <div class="mb-6">
+      <h3 class="text-white text-lg font-semibold mb-3">Montant d'avance</h3>
+      <ion-radio-group [(ngModel)]="reservation.downPayment">
+        <ion-item lines="none" class="mb-3 bg-gray-800 rounded-lg">
+          <ion-radio slot="start" [value]="10"></ion-radio>
+          <ion-label class="text-white">10% ({{ (reservation.totalPrice * 0.1)?.toLocaleString() }} FCFA)</ion-label>
+        </ion-item>
+        <ion-item lines="none" class="bg-gray-800 rounded-lg">
+          <ion-radio slot="start" [value]="30"></ion-radio>
+          <ion-label class="text-white">30% ({{ (reservation.totalPrice * 0.3)?.toLocaleString() }} FCFA)</ion-label>
+        </ion-item>
+        <ion-item lines="none" class="bg-gray-800 rounded-lg">
+          <ion-radio slot="start" [value]="30"></ion-radio>
+          <ion-label class="text-white">100% ({{ (reservation.totalPrice * 0.3)?.toLocaleString() }} FCFA)</ion-label>
+        </ion-item>
+      </ion-radio-group>
+    </div>
+
+    <!-- Durée de réservation -->
+    <div class="mb-6">
+      <div class="flex items-center justify-between bg-gray-800 p-4 rounded-lg duration-display">
+        <span class="text-white text-lg">Durée</span>
+        <span class="text-orange-500 text-xl font-bold">{{ getDuration() }} jour(s)</span>
+      </div>
+    </div>
+
+    <!-- Prix total -->
+    <div class="mb-6">
+      <div class="flex items-center justify-between bg-gray-800 p-4 rounded-lg">
+        <span class="text-white text-lg">Prix Total</span>
+        <span class="text-orange-500 text-2xl font-bold">{{ reservation.totalPrice.toLocaleString() }} F cfa</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bouton Suivant -->
+  <ion-footer class="p-4 bg-black">
+    <ion-button expand="block" color="warning" (click)="onNext()" class="font-bold bg-white text-black rounded-lg">
+      Suivant <ion-icon name="chevron-forward" slot="end"></ion-icon>
+    </ion-button>
+  </ion-footer>
+
+  <!-- Modal pour le sélecteur de date -->
+  <ion-modal [isOpen]="isDateModalOpen" (willDismiss)="closeDateModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="dark">
+          <ion-title class="text-white">
+            {{ selectedDateType === 'start' ? 'Sélectionner la date de début' : 'Sélectionner la date de fin' }}
+          </ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeDateModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="bg-black">
+        <ion-datetime
+          [value]="selectedDateType === 'start' ? reservation.startDate.toISOString() : reservation.endDate.toISOString()"
+          presentation="date"
+          locale="fr-FR"
+          (ionChange)="onDateSelected($event)"
+          [min]="getTodayDate()"
+          [max]="selectedDateType === 'start' ? (reservation.endDate ? reservation.endDate.toISOString().split('T')[0] : undefined) : undefined">
+        </ion-datetime>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+

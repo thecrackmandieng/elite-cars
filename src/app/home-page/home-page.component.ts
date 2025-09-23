@@ -11,10 +11,8 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonRadio,
-  IonRadioGroup,
-  IonSearchbar
-} from "@ionic/angular/standalone";
+
+  IonButtons, IonRadio } from "@ionic/angular/standalone";
 
 import { CarService } from '../services/car.service';
 import { Car } from '../models/car.interface';
@@ -24,9 +22,10 @@ import { Car } from '../models/car.interface';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss'],
   standalone: true,
-  imports: [
+  imports: [IonRadio,
     CommonModule,
     FormsModule,
+    IonButtons,
     IonHeader,
     IonTitle,
     IonToolbar,
@@ -35,9 +34,8 @@ import { Car } from '../models/car.interface';
     IonModal,
     IonList,
     IonItem,
-    IonLabel,
-    IonRadio,
-    IonRadioGroup,
+    IonLabel
+
   ],
 })
 export class HomePageComponent implements OnInit {
@@ -47,9 +45,10 @@ export class HomePageComponent implements OnInit {
   marques: string[] = [];
   prixs: number[] = [];
 
-  selectedType: string | null = null;
-  selectedMarque: string | null = null;
-  selectedPrix: number | null = null;
+  // ✅ plusieurs sélections possibles
+  selectedType: string[] = [];
+  selectedMarque: string[] = [];
+  selectedPrix: number[] = [];
 
   searchType: string = '';
   searchMarque: string = '';
@@ -58,10 +57,8 @@ export class HomePageComponent implements OnInit {
   constructor(private carService: CarService) {}
 
   ngOnInit() {
-    // Récupérer toutes les voitures
     this.cars = this.carService.getAllCars();
 
-    // Récupérer dynamiquement les types, marques et prix
     this.typesVehicules = Array.from(new Set(this.cars.map(car => car.specifications))).sort();
     this.marques = Array.from(new Set(this.cars.map(car => car.name))).sort();
     this.prixs = Array.from(new Set(this.cars.map(car => car.price))).sort((a, b) => a - b);
@@ -77,46 +74,62 @@ export class HomePageComponent implements OnInit {
     car.isFavorite = !car.isFavorite;
   }
 
-  selectType(type: string) {
-    this.selectedType = type;
-    this.closeModal('open-type');
+  // ✅ Gestion des checkboxes
+  toggleSelection(list: any[], value: any) {
+    if (list.includes(value)) {
+      list.splice(list.indexOf(value), 1); // décocher
+    } else {
+      list.push(value); // cocher
+    }
   }
-
   selectMarque(marque: string) {
-    this.selectedMarque = marque;
-    this.closeModal('open-marque');
+    if (this.selectedMarque.includes(marque)) {
+      this.selectedMarque = this.selectedMarque.filter(m => m !== marque);
+    } else {
+      this.selectedMarque.push(marque);
+    }
   }
 
   selectPrix(prix: number) {
-    this.selectedPrix = prix;
-    this.closeModal('open-prix');
+    if (this.selectedPrix.includes(prix)) {
+      this.selectedPrix = this.selectedPrix.filter(p => p !== prix);
+    } else {
+      this.selectedPrix.push(prix);
+    }
+  }
+selectType(type: string) {
+    if (this.selectedType.includes(type)) {
+      this.selectedType = this.selectedType.filter(t => t !== type);
+    } else {
+      this.selectedType.push(type);
+    }
   }
 
-  private closeModal(triggerId: string) {
-    const modal = document.querySelector(`ion-modal[trigger="${triggerId}"]`) as HTMLIonModalElement;
-    modal?.dismiss();
-  }
-
-  // Filtrage des voitures
+  // ✅ Filtrage multi-sélections
   get filteredCars(): Car[] {
     let filtered = this.cars;
 
-    if (this.selectedType) {
-      filtered = filtered.filter(car => car.specifications?.includes(this.selectedType!));
+    if (this.selectedType.length > 0) {
+      filtered = filtered.filter(car =>
+        this.selectedType.some(type => car.specifications?.includes(type))
+      );
     }
 
-    if (this.selectedMarque) {
-      filtered = filtered.filter(car => car.name?.includes(this.selectedMarque!));
+    if (this.selectedMarque.length > 0) {
+      filtered = filtered.filter(car =>
+        this.selectedMarque.some(marque => car.name?.includes(marque))
+      );
     }
 
-    if (this.selectedPrix) {
-      filtered = filtered.filter(car => car.price <= this.selectedPrix!);
+    if (this.selectedPrix.length > 0) {
+      const maxPrix = Math.max(...this.selectedPrix);
+      filtered = filtered.filter(car => car.price <= maxPrix);
     }
 
     return filtered;
   }
 
-  // Méthode pour filtrer la recherche dans le modal
+
   filterList(items: string[], search: string) {
     if (!search) return items;
     return items.filter(item => item.toLowerCase().includes(search.toLowerCase()));

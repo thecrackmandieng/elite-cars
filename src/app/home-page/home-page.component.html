@@ -11,13 +11,13 @@
 
 <!-- Boutons filtres -->
 <div class="bg-black flex justify-center gap-4 py-4">
-  <ion-button id="open-type" fill="outline" shape="round" class="text-white border-gray-600">
+  <ion-button id="open-type" fill="outline color-white" shape="round" class="text-white border-gray-600">
     Véhicule
   </ion-button>
   <ion-button id="open-marque" fill="outline" shape="round" class="text-white border-gray-600">
     Marque
   </ion-button>
-  <ion-button id="open-prix" fill="outline" shape="round" class="text-white border-gray-600">
+  <ion-button id="open-prix" fill="outline" shape="round" class="text-white border-gray-600" >
     Prix
   </ion-button>
 </div>
@@ -27,7 +27,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div
         *ngFor="let car of filteredCars"
-        class="bg-gray-900 rounded-xl overflow-hidden cursor-pointer transform transition-transform hover:scale-105 relative"
+        class="bg-black-900 rounded-lg overflow-hidden cursor-pointer transform transition-transform hover:scale-105 relative"
         (click)="onCarClick(car)"
       >
         <img [src]="car.image" [alt]="car.name" class="w-full h-40 object-cover" />
@@ -42,53 +42,82 @@
 </ion-content>
 
 <!-- Modal Type de véhicule -->
-<ion-modal trigger="open-type" [initialBreakpoint]="0.75" [breakpoints]="[0,0.5,0.75,1]">
-  <ion-content class="bg-gray-900 text-white">
-    <div class="p-4">
-      <h2 class="text-white text-xl font-bold mb-4 text-center">Filtre</h2>
-      <h3 class="text-white text-lg font-semibold mb-3">Type de véhicule</h3>
-      <ion-radio-group [(ngModel)]="selectedType">
-        <ion-list>
-          <ion-item *ngFor="let type of typesVehicules">
-            <ion-radio slot="start" [value]="type" color="primary"></ion-radio>
-            <ion-label class="text-white text-lg">{{ type }}</ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-radio-group>
-    </div>
-  </ion-content>
+<ion-modal #modalType trigger="open-type" [initialBreakpoint]="0.75" [breakpoints]="[0,0.5,0.75,1]">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Type de véhicule</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modalType.dismiss()">Fermer</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="bg-gray-900 text-white">
+      <div class="p-4">
+        <ion-radio-group [(ngModel)]="selectedType">
+          <ion-list>
+            <ion-item *ngFor="let type of typesVehicules" (click)="selectType(type)">
+              <ion-radio slot="start" [value]="type" color="primary"></ion-radio>
+              <ion-label class="text-white text-lg">{{ type }}</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-radio-group>
+      </div>
+    </ion-content>
+  </ng-template>
 </ion-modal>
 
 <!-- Modal Marques -->
-<ion-modal trigger="open-marque" [initialBreakpoint]="0.75" [breakpoints]="[0,0.5,0.75,1]">
-  <ion-content class="bg-gray-900 text-white">
-    <div class="p-4">
-      <h3 class="text-white text-lg font-semibold mb-3">Marque</h3>
-      <ion-radio-group [(ngModel)]="selectedMarque">
-        <ion-list>
-          <ion-item *ngFor="let marque of marques">
-            <ion-radio slot="start" [value]="marque" color="primary"></ion-radio>
-            <ion-label class="text-white text-lg">{{ marques }}</ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-radio-group>
-    </div>
-  </ion-content>
+<ion-modal #modalMarque trigger="open-marque" [initialBreakpoint]="0.75" [breakpoints]="[0,0.5,0.75,1]">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Marque</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modalMarque.dismiss()">Fermer</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="bg-gray-900 text-white">
+      <div class="p-4">
+        <ion-radio-group [(ngModel)]="selectedMarque">
+          <ion-list>
+            <ion-item *ngFor="let marque of marques" (click)="selectMarque(marque)">
+              <ion-radio slot="start" [value]="marque" color="primary"></ion-radio>
+              <ion-label class="text-white text-lg">{{ marque }}</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-radio-group>
+      </div>
+    </ion-content>
+  </ng-template>
 </ion-modal>
 
 <!-- Modal Prix -->
-<ion-modal trigger="open-prix" [initialBreakpoint]="0.75" [breakpoints]="[0,0.5,0.75,1]">
-  <ion-content class="bg-gray-900 text-white">
-    <div class="p-4">
-      <h3 class="text-white text-lg font-semibold mb-3">Prix</h3>
-      <ion-radio-group [(ngModel)]="selectedPrix">
-        <ion-list>
-          <ion-item *ngFor="let prix of prixs">
-            <ion-radio slot="start" [value]="prix" color="primary"></ion-radio>
-            <ion-label class="text-white text-lg">{{ prix }} CFA</ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-radio-group>
-    </div>
-  </ion-content>
+<ion-modal #modalPrix trigger="open-prix" [initialBreakpoint]="0.75" [breakpoints]="[0,0.5,0.75,1]">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Prix</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modalPrix.dismiss()">Fermer</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="bg-gray-900 text-white">
+      <div class="p-4">
+        <ion-radio-group [(ngModel)]="selectedPrix">
+          <ion-list>
+            <ion-item *ngFor="let prix of prixs" (click)="selectPrix(prix)">
+              <ion-radio slot="start" [value]="prix" color="primary"></ion-radio>
+              <ion-label class="text-white text-lg">{{ prix.toLocaleString() }} CFA</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-radio-group>
+      </div>
+    </ion-content>
+  </ng-template>
 </ion-modal>
