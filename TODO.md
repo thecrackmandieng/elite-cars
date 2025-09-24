@@ -1,36 +1,33 @@
-# TODO - Implémentation du calendrier visuel pour les réservations
+# Fix aria-hidden Accessibility Issue
 
-## Tâches complétées ✅
+## Problem
+Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users.
 
-1. **Modification du TypeScript (reservation.component.ts):**
-   - ✅ Ajout des imports IonModal, IonDatetime, IonDatetimeButton
-   - ✅ Ajout des propriétés isDateModalOpen et selectedDateType
-   - ✅ Remplacement de openDatePicker par openDateModal, closeDateModal, et onDateSelected
+## Root Cause
+Ionic automatically sets `aria-hidden="true"` on ion-page elements during navigation, but focused elements may remain within hidden pages.
 
-2. **Modification du HTML (reservation.component.html):**
-   - ✅ Mise à jour des clics sur les dates pour utiliser openDateModal
-   - ✅ Ajout du modal avec ion-datetime pour la sélection visuelle des dates
-   - ✅ Configuration du calendrier en français avec les bonnes contraintes de dates
+## Solution Steps
 
-## Tests à effectuer 🔄
+### 1. Focus Management Implementation
+- [x] Add focus management utilities to components
+- [x] Implement proper focus cleanup before navigation
+- [x] Use Ionic lifecycle hooks for focus management
 
-1. **Test de base:**
-   - Vérifier que le modal s'ouvre en cliquant sur les dates
-   - Vérifier que le calendrier affiche les bonnes dates
-   - Vérifier que la sélection de date met à jour l'affichage
+### 2. Update ReservationComponent
+- [x] Add focus management in `ionViewWillLeave`
+- [x] Ensure no focused elements remain when page is hidden
+- [x] Add focus restoration on `ionViewWillEnter`
 
-2. **Test des fonctionnalités:**
-   - Tester la sélection de date de début
-   - Tester la sélection de date de fin
-   - Vérifier que les contraintes de dates fonctionnent (date de fin >= date de début)
-   - Vérifier que le calcul du prix total se met à jour
+### 3. Update ConfirmationComponent
+- [x] Add focus management on component initialization
+- [x] Set initial focus to appropriate element
+- [x] Handle focus during navigation
 
-3. **Test de l'interface utilisateur:**
-   - Vérifier que le design s'intègre bien avec le reste de l'application
-   - Tester sur mobile et desktop si possible
+### 4. CSS Enhancements
+- [x] Add CSS to prevent focus on hidden elements
+- [x] Implement focus trap for active pages
 
-## Prochaines étapes 📋
-
-- [ ] Effectuer les tests mentionnés ci-dessus
-- [ ] Corriger les éventuels bugs découverts
-- [ ] Optimiser l'interface si nécessaire
+### 5. Testing
+- [ ] Test navigation between reservation pages
+- [ ] Verify accessibility compliance
+- [ ] Test with screen readers

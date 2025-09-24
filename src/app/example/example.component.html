@@ -1,10 +1,10 @@
 <ion-tabs>
-  <ion-tab-bar slot="bottom" class="bg-black">
-    <ion-tab-button class="bg-black color-white" tab="home" (click)="presentLoading()">
+  <ion-tab-bar slot="bottom" class="bg-black" *ngIf="!shouldHideTabs">
+    <ion-tab-button class="bg-black color-white" tab="home" (click)="onTabClick('home')">
       <ion-icon class="color-white" name="home"></ion-icon>
     </ion-tab-button>
-    <ion-tab-button class="bg-black color-white" tab="favorite" (click)="presentLoading()">
+    <ion-tab-button class="bg-black color-white" tab="favorites" (click)="onTabClick('favorites')">
       <ion-icon class="color-white" name="heart"></ion-icon>
     </ion-tab-button>
   </ion-tab-bar>
-</ion-tabs>
+

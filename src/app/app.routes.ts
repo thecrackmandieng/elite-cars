@@ -27,6 +27,11 @@ export const routes: Routes = [
           import('./reservation/reservation.component').then((m) => m.ReservationComponent),
       },
       {
+        path: 'confirmation',
+        loadComponent: () =>
+          import('./reservation/confirmation.component').then((m) => m.ConfirmationComponent),
+      },
+      {
         path: '',
         redirectTo: '/example/home',
         pathMatch: 'full',
@@ -37,5 +42,14 @@ export const routes: Routes = [
     path: '',
     redirectTo: '/example/home',
     pathMatch: 'full',
+  },
+];
+
+// Additional routes for tabs
+export const tabRoutes: Routes = [
+  {
+    path: 'favorites',
+    loadComponent: () =>
+      import('./favorites/favorites.component').then((m) => m.FavoritesComponent),
   },
 ];

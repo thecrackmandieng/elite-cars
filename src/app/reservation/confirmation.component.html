@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar color="dark" style="--background: #1a1a1a; --color: #fff;">
+    <ion-buttons slot="start">
+      <!-- Bouton retour personnalisé -->
+      <ion-button (click)="onBack()" fill="clear" style="--color: #fff;">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="text-white">Confirmer la réservation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen class="bg-black flex flex-col justify-between" style="--background: #000;">
+  <!-- Formulaire d'informations personnelles -->
+  <div class="p-4 flex-1 overflow-y-auto">
+    <h3 class="text-white text-lg font-semibold mb-4">Informations personnelles</h3>
+
+    <!-- Prénom -->
+    <ion-item lines="none" class="mb-3 bg-gray-800 rounded-lg"
+      style="--background: #1a1a1a; --color: #fff;">
+      <ion-icon name="person-outline" slot="start" style="color: #ff9500; margin-right: 12px;"></ion-icon>
+      <ion-input #firstNameInput [(ngModel)]="userInfo.firstName" placeholder="Prénom" style="--color: #fff;"></ion-input>
+    </ion-item>
+
+    <!-- Nom -->
+    <ion-item lines="none" class="mb-3 bg-gray-800 rounded-lg"
+      style="--background: #1a1a1a; --color: #fff;">
+      <ion-icon name="person-outline" slot="start" style="color: #ff9500; margin-right: 12px;"></ion-icon>
+      <ion-input [(ngModel)]="userInfo.lastName" placeholder="Nom" style="--color: #fff;"></ion-input>
+    </ion-item>
+
+    <!-- Email -->
+    <ion-item lines="none" class="mb-3 bg-gray-800 rounded-lg"
+      style="--background: #1a1a1a; --color: #fff;">
+      <ion-icon name="mail-outline" slot="start" style="color: #ff9500; margin-right: 12px;"></ion-icon>
+      <ion-input [(ngModel)]="userInfo.email" type="email" placeholder="Email" style="--color: #fff;"></ion-input>
+    </ion-item>
+
+    <!-- Téléphone -->
+    <ion-item lines="none" class="mb-3 bg-gray-800 rounded-lg"
+      style="--background: #1a1a1a; --color: #fff;">
+      <ion-icon name="call-outline" slot="start" style="color: #ff9500; margin-right: 12px;"></ion-icon>
+      <ion-input [(ngModel)]="userInfo.phone" type="tel" placeholder="Téléphone" style="--color: #fff;"></ion-input>
+    </ion-item>
+
+    <!-- Mot de passe -->
+    <ion-item lines="none" class="mb-8 bg-gray-800 rounded-lg"
+      style="--background: #1a1a1a; --color: #fff;">
+      <ion-icon name="lock-closed-outline" slot="start" style="color: #ff9500; margin-right: 12px;"></ion-icon>
+      <ion-input [(ngModel)]="userInfo.password" type="password" placeholder="Mot de passe" style="--color: #fff;"></ion-input>
+    </ion-item>
+
+    <!-- Prix total -->
+    <div class="mb-6">
+      <div class="flex items-center justify-between bg-gray-800 p-4 rounded-lg"
+        style="--background: #1a1a1a; --color: #fff;">
+        <span class="text-white text-lg">Prix Total</span>
+        <span class="text-orange-500 text-2xl font-bold">
+          {{ totalPrice.toLocaleString() }} FCFA
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Bouton Suivant collé en bas -->
+  <div class="p-4 bg-black sticky bottom-0">
+    <ion-button #nextButton expand="block" color="warning" (click)="onNext()" class="font-bold rounded-lg">
+      Suivant
+      <ion-icon name="chevron-forward" slot="end"></ion-icon>
+    </ion-button>
+  </div>
+</ion-content>

@@ -11,13 +11,13 @@
 
 <!-- Boutons filtres -->
 <div class="bg-black flex justify-center gap-4 py-4">
-  <ion-button id="open-type" fill="outline color-white" shape="round" class="text-white border-gray-600">
+  <ion-button id="open-type" fill="outline" shape="round" class="text-white border-gray-600">
     Véhicule
   </ion-button>
   <ion-button id="open-marque" fill="outline" shape="round" class="text-white border-gray-600">
     Marque
   </ion-button>
-  <ion-button id="open-prix" fill="outline" shape="round" class="text-white border-gray-600" >
+  <ion-button id="open-prix" fill="outline" shape="round" class="text-white border-gray-600">
     Prix
   </ion-button>
 </div>
@@ -32,7 +32,7 @@
       >
         <img [src]="car.image" [alt]="car.name" class="w-full h-40 object-cover" />
         <div class="p-4">
-          <p class="text-gray-300 text-lg font-semibold mb-2 text-right">{{ car.options }}</p>
+          <p class="text-gray-300 text-lg font-semibold mb-2 text-right">{{ car.options.join(', ') }}</p>
           <h3 class="text-lg font-semibold text-white">{{ car.name }}</h3>
           <p class="text-yellow-500 font-bold text-lg">{{ car.price.toLocaleString() }} CFA / Jour</p>
         </div>
@@ -52,17 +52,28 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-
     <ion-content class="bg-gray-900 text-white">
       <div class="p-4">
-        <ion-radio-group [(ngModel)]="selectedType">
-          <ion-list>
-            <ion-item *ngFor="let type of typesVehicules" (click)="selectType(type)">
-              <ion-radio slot="start" [value]="type" color="primary"></ion-radio>
-              <ion-label class="text-white text-lg">{{ type }}</ion-label>
-            </ion-item>
-          </ion-list>
-        </ion-radio-group>
+        <ion-searchbar
+          [(ngModel)]="searchType"
+          (ionInput)="onSearchTypeChange()"
+          placeholder="Rechercher un type..."
+          class="mb-4"
+        ></ion-searchbar>
+        <div class="mb-4 text-white">
+          <p><strong>Types disponibles ({{ filteredTypesVehicules.length }}) :</strong></p>
+          <div *ngFor="let type of filteredTypesVehicules; trackBy: trackByFn" class="flex items-center mb-2">
+            <ion-checkbox
+              [checked]="selectedType.includes(type)"
+              (ionChange)="selectType(type)"
+              class="mr-2"
+            ></ion-checkbox>
+            <span class="text-lg">{{ type }}</span>
+          </div>
+          <div *ngIf="filteredTypesVehicules.length === 0" class="text-gray-400">
+            Aucun type trouvé
+          </div>
+        </div>
       </div>
     </ion-content>
   </ng-template>
@@ -79,17 +90,28 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-
     <ion-content class="bg-gray-900 text-white">
       <div class="p-4">
-        <ion-radio-group [(ngModel)]="selectedMarque">
-          <ion-list>
-            <ion-item *ngFor="let marque of marques" (click)="selectMarque(marque)">
-              <ion-radio slot="start" [value]="marque" color="primary"></ion-radio>
-              <ion-label class="text-white text-lg">{{ marque }}</ion-label>
-            </ion-item>
-          </ion-list>
-        </ion-radio-group>
+        <ion-searchbar
+          [(ngModel)]="searchMarque"
+          (ionInput)="onSearchMarqueChange()"
+          placeholder="Rechercher une marque..."
+          class="mb-4"
+        ></ion-searchbar>
+        <div class="mb-4 text-white">
+          <p><strong>Marques disponibles ({{ filteredMarques.length }}) :</strong></p>
+          <div *ngFor="let marque of filteredMarques; trackBy: trackByFn" class="flex items-center mb-2">
+            <ion-checkbox
+              [checked]="selectedMarque.includes(marque)"
+              (ionChange)="selectMarque(marque)"
+              class="mr-2"
+            ></ion-checkbox>
+            <span class="text-lg">{{ marque }}</span>
+          </div>
+          <div *ngIf="filteredMarques.length === 0" class="text-gray-400">
+            Aucune marque trouvée
+          </div>
+        </div>
       </div>
     </ion-content>
   </ng-template>
@@ -106,17 +128,28 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-
     <ion-content class="bg-gray-900 text-white">
       <div class="p-4">
-        <ion-radio-group [(ngModel)]="selectedPrix">
-          <ion-list>
-            <ion-item *ngFor="let prix of prixs" (click)="selectPrix(prix)">
-              <ion-radio slot="start" [value]="prix" color="primary"></ion-radio>
-              <ion-label class="text-white text-lg">{{ prix.toLocaleString() }} CFA</ion-label>
-            </ion-item>
-          </ion-list>
-        </ion-radio-group>
+        <ion-searchbar
+          [(ngModel)]="searchPrix"
+          (ionInput)="onSearchPrixChange()"
+          placeholder="Rechercher un prix..."
+          class="mb-4"
+        ></ion-searchbar>
+        <div class="mb-4 text-white">
+          <p><strong>Prix disponibles ({{ filteredPrixs.length }}) :</strong></p>
+          <div *ngFor="let prix of filteredPrixs; trackBy: trackByFn" class="flex items-center mb-2">
+            <ion-checkbox
+              [checked]="selectedPrix.includes(prix)"
+              (ionChange)="selectPrix(prix)"
+              class="mr-2"
+            ></ion-checkbox>
+            <span class="text-lg">{{ prix.toLocaleString() }} CFA</span>
+          </div>
+          <div *ngIf="filteredPrixs.length === 0" class="text-gray-400">
+            Aucun prix trouvé
+          </div>
+        </div>
       </div>
     </ion-content>
   </ng-template>

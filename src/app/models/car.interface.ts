@@ -9,6 +9,8 @@ export interface Car {
   zones: string[];
   options: string[];
   isFavorite?: boolean;
+  category?: string;
+  marques?: string;
 }
 
 export interface CarOption {
