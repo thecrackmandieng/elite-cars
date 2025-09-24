@@ -18,7 +18,7 @@ import { Subscription } from 'rxjs';
   imports: [
     IonFooter, IonLabel, IonItem, IonHeader, IonToolbar, IonTitle, IonContent,
     IonButton, IonIcon, IonButtons, IonRadioGroup, IonRadio,
-    IonInput, IonModal, IonDatetime, CommonModule, FormsModule
+    IonInput, IonDatetime, CommonModule, FormsModule
   ]
 })
 export class ReservationComponent implements OnInit, OnDestroy {
@@ -27,8 +27,8 @@ export class ReservationComponent implements OnInit, OnDestroy {
   @ViewChild(IonContent, { static: false }) content!: IonContent;
 
   car: Car | undefined;
-  isDateModalOpen = false;
-  selectedDateType: 'start' | 'end' | null = null;
+  showStartDatePicker = false;
+  showEndDatePicker = false;
   private subscriptions: Subscription[] = [];
   private isNavigating = false;
 
@@ -80,36 +80,32 @@ export class ReservationComponent implements OnInit, OnDestroy {
     return `${day} ${month} ${year}`;
   }
 
-  openDateModal(type: 'start' | 'end') {
-    console.log('Opening date modal for:', type);
-    console.log('Modal open state before:', this.isDateModalOpen);
-    this.selectedDateType = type;
-    this.isDateModalOpen = true;
-    console.log('Modal open state after:', this.isDateModalOpen);
-  }
-
-  closeDateModal() {
-    console.log('Closing date modal');
-    console.log('Modal open state before close:', this.isDateModalOpen);
-    this.isDateModalOpen = false;
-    this.selectedDateType = null;
-    console.log('Modal open state after close:', this.isDateModalOpen);
-  }
-
-  onDateSelected(event: any) {
-    console.log('Date selected event:', event);
-    console.log('Selected date type:', this.selectedDateType);
-    const selectedDate = new Date(event.detail.value);
-    console.log('Parsed selected date:', selectedDate);
-    if (this.selectedDateType === 'start') {
-      this.reservation.startDate = selectedDate;
-      console.log('Updated start date:', this.reservation.startDate);
-    } else if (this.selectedDateType === 'end') {
-      this.reservation.endDate = selectedDate;
-      console.log('Updated end date:', this.reservation.endDate);
+  toggleStartDatePicker() {
+    this.showStartDatePicker = !this.showStartDatePicker;
+    if (this.showStartDatePicker) {
+      this.showEndDatePicker = false;
     }
+  }
+
+  toggleEndDatePicker() {
+    this.showEndDatePicker = !this.showEndDatePicker;
+    if (this.showEndDatePicker) {
+      this.showStartDatePicker = false;
+    }
+  }
+
+  onStartDateSelected(event: any) {
+    const selectedDate = new Date(event.detail.value);
+    this.reservation.startDate = selectedDate;
+    this.showStartDatePicker = false;
     this.onDateChange();
-    this.closeDateModal();
+  }
+
+  onEndDateSelected(event: any) {
+    const selectedDate = new Date(event.detail.value);
+    this.reservation.endDate = selectedDate;
+    this.showEndDatePicker = false;
+    this.onDateChange();
   }
 
   calculateTotal() {

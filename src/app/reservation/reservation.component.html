@@ -1,3 +1,5 @@
+
+
 <ion-header>
   <ion-toolbar color="dark">
     <ion-buttons slot="start">
@@ -57,22 +59,7 @@
 <!-- Date de Début -->
 <div class="mb-6">
   <h3 class="text-white text-lg font-semibold mb-3">Date de Début</h3>
-  <ion-item lines="none" class="mb-4 cursor-pointer transition-all duration-300 border-2 border-transparent hover:border-orange-500 hover:bg-orange-500 hover:bg-opacity-10 transform hover:-translate-y-0.5 hover:shadow-lg hover:shadow-orange-500/30" (click)="openDateModal('start')" style="--background: #1a1a1a; --color: #fff; --padding-start: 10px;">
-    <ion-icon name="calendar-outline" slot="start" class="text-orange-500 text-2xl mr-3 transition-all duration-300 cursor-pointer hover:scale-110 hover:text-orange-500" style="font-size: 24px !important; margin-right: 12px; transition: all 0.3s ease; cursor: pointer;" size="large"></ion-icon>
-    <ion-input
-      [(ngModel)]="reservation.startDateDisplay"
-      placeholder="JJ MMM AAAA"
-      readonly
-      class="text-white text-center font-medium cursor-pointer" style="--color: #fff; text-align: center; font-weight: 500; cursor: pointer;">
-    </ion-input>
-    <ion-icon name="chevron-forward" slot="end" class="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-1" style="color: #666; transition: all 0.3s ease;"></ion-icon>
-  </ion-item>
-</div>
-
-<!-- Date de Fin -->
-<div class="mb-6">
-  <h3 class="text-white text-lg font-semibold mb-3">Date de Fin</h3>
-  <ion-item lines="none" class="cursor-pointer transition-all duration-300 border-2 border-transparent hover:border-orange-500 hover:bg-orange-500 hover:bg-opacity-10 transform hover:-translate-y-0.5 hover:shadow-lg hover:shadow-orange-500/30" (click)="openDateModal('end')" style="--background: #1a1a1a; --color: #fff; --padding-start: 10px;">
+  <ion-item lines="none" class="cursor-pointer transition-all duration-300 border-2 border-transparent hover:border-orange-500 hover:bg-orange-500 hover:bg-opacity-10 transform hover:-translate-y-0.5 hover:shadow-lg hover:shadow-orange-500/30" (click)="toggleEndDatePicker()" style="--background: #1a1a1a; --color: #fff; --padding-start: 10px;">
     <ion-icon name="calendar-outline" slot="start" class="text-orange-500 text-2xl mr-3 transition-all duration-300 cursor-pointer hover:scale-110 hover:text-orange-500" style="font-size: 24px !important; margin-right: 12px; transition: all 0.3s ease; cursor: pointer;" size="large"></ion-icon>
     <ion-input
       [(ngModel)]="reservation.endDateDisplay"
@@ -80,8 +67,56 @@
       readonly
       class="text-white text-center font-medium cursor-pointer" style="--color: #fff; text-align: center; font-weight: 500; cursor: pointer;">
     </ion-input>
-    <ion-icon name="chevron-forward" slot="end" class="text-gray-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-1" style="color: #666; transition: all 0.3s ease;"></ion-icon>
+    <ion-icon name="chevron-forward" slot="end" class="text-white-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-1" style="color: #666; transition: all 0.3s ease;"></ion-icon>
   </ion-item>
+
+  <!-- Calendrier intégré pour la date de début -->
+  <div *ngIf="showStartDatePicker" class="bg-gray-800 rounded-lg p-4 mt-2 border border-gray-700 animate-slide-down shadow-2xl transform transition-all duration-300 hover:shadow-orange-500/30">
+    <ion-datetime
+      [value]="reservation.startDate.toISOString()"
+      presentation="date"
+      locale="fr-FR"
+      (ionChange)="onStartDateSelected($event)"
+      [min]="getTodayDate()"
+      [max]="reservation.endDate ? reservation.endDate.toISOString().split('T')[0] : undefined"
+      showDefaultButtons="true"
+      showDefaultTitle="true"
+      doneText="Confirmer"
+      cancelText="Annuler"
+      class="w-full text-white bg-gray-900 rounded-lg p-4 border border-gray-600 shadow-lg hover:border-orange-500 transition-all duration-300 [&::part(calendar)]:bg-gray-900 [&::part(calendar)]:text-white [&::part(month-year-button)]:text-orange-500 [&::part(month-year-button)]:font-bold [&::part(month-year-button)]:text-lg [&::part(month-year-button)]:p-3 [&::part(month-year-button)]:rounded-lg [&::part(month-year-button)]:bg-orange-500/10 [&::part(month-year-button)]:hover:bg-orange-500/20 [&::part(month-year-button)]:transition-all [&::part(month-year-button)]:hover:scale-105 [&::part(calendar-day)]:text-gray-300 [&::part(calendar-day)]:hover:bg-orange-500/30 [&::part(calendar-day)]:hover:scale-110 [&::part(calendar-day)]:transition-all [&::part(calendar-day)]:rounded-md [&::part(calendar-day)]:today:bg-orange-500 [&::part(calendar-day)]:today:text-black [&::part(calendar-day)]:today:font-bold [&::part(calendar-day)]:selected:bg-orange-500 [&::part(calendar-day)]:selected:text-black [&::part(calendar-day)]:selected:font-bold [&::part(arrow-button)]:text-orange-500 [&::part(arrow-button)]:text-xl [&::part(arrow-button)]:p-2 [&::part(arrow-button)]:rounded-full [&::part(arrow-button)]:bg-orange-500/10 [&::part(arrow-button)]:hover:bg-orange-500/20 [&::part(arrow-button)]:hover:scale-125 [&::part(arrow-button)]:transition-all [&::part(button)]:bg-orange-500 [&::part(button)]:text-black [&::part(button)]:font-bold [&::part(button)]:rounded-lg [&::part(button)]:m-1 [&::part(button)]:px-6 [&::part(button)]:py-3 [&::part(button)]:hover:bg-orange-400 [&::part(button)]:hover:-translate-y-0.5 [&::part(button)]:hover:shadow-lg [&::part(button)]:hover:shadow-orange-500/30 [&::part(button)]:transition-all [&::part(button)]:cancel:bg-gray-600 [&::part(button)]:cancel:text-white [&::part(button)]:cancel:hover:bg-gray-500 [&::part(button)]:cancel:hover:shadow-gray-500/30 [&::part(title)]:text-white [&::part(title)]:text-xl [&::part(title)]:font-bold [&::part(title)]:text-center [&::part(title)]:p-4">
+    </ion-datetime>
+  </div>
+</div>
+
+<!-- Date de Fin -->
+<div class="mb-6">
+  <h3 class="text-white text-lg font-semibold mb-3">Date de Fin</h3>
+  <ion-item lines="none" class="cursor-pointer transition-all duration-300 border-2 border-transparent hover:border-orange-500 hover:bg-orange-500 hover:bg-opacity-10 transform hover:-translate-y-0.5 hover:shadow-lg hover:shadow-orange-500/30" (click)="toggleEndDatePicker()" style="--background: #1a1a1a; --color: #fff; --padding-start: 10px;">
+    <ion-icon name="calendar-outline" slot="start" class="text-orange-500 text-2xl mr-3 transition-all duration-300 cursor-pointer hover:scale-110 hover:text-orange-500" style="font-size: 24px !important; margin-right: 12px; transition: all 0.3s ease; cursor: pointer;" size="large"></ion-icon>
+    <ion-input
+      [(ngModel)]="reservation.endDateDisplay"
+      placeholder="JJ MMM AAAA"
+      readonly
+      class="text-white text-center font-medium cursor-pointer" style="--color: #fff; text-align: center; font-weight: 500; cursor: pointer;">
+    </ion-input>
+    <ion-icon name="chevron-forward" slot="end" class="text-white-400 transition-all duration-300 hover:text-orange-500 hover:translate-x-1" style="color: #666; transition: all 0.3s ease;"></ion-icon>
+  </ion-item>
+
+  <!-- Calendrier intégré pour la date de fin -->
+  <div *ngIf="showEndDatePicker" class="bg-gray-800 rounded-lg p-4 mt-2 border border-gray-700 animate-slide-down shadow-2xl transform transition-all duration-300 hover:shadow-orange-500/30">
+    <ion-datetime
+      [value]="reservation.endDate.toISOString()"
+      presentation="date"
+      locale="fr-FR"
+      (ionChange)="onEndDateSelected($event)"
+      [min]="reservation.startDate ? reservation.startDate.toISOString().split('T')[0] : getTodayDate()"
+      showDefaultButtons="true"
+      showDefaultTitle="true"
+      doneText="Confirmer"
+      cancelText="Annuler"
+      class="w-full text-white bg-gray-900 rounded-lg p-4 border border-gray-600 shadow-lg hover:border-orange-500 transition-all duration-300 [&::part(calendar)]:bg-gray-900 [&::part(calendar)]:text-white [&::part(month-year-button)]:text-orange-500 [&::part(month-year-button)]:font-bold [&::part(month-year-button)]:text-lg [&::part(month-year-button)]:p-3 [&::part(month-year-button)]:rounded-lg [&::part(month-year-button)]:bg-orange-500/10 [&::part(month-year-button)]:hover:bg-orange-500/20 [&::part(month-year-button)]:transition-all [&::part(month-year-button)]:hover:scale-105 [&::part(calendar-day)]:text-gray-300 [&::part(calendar-day)]:hover:bg-orange-500/30 [&::part(calendar-day)]:hover:scale-110 [&::part(calendar-day)]:transition-all [&::part(calendar-day)]:rounded-md [&::part(calendar-day)]:today:bg-orange-500 [&::part(calendar-day)]:today:text-black [&::part(calendar-day)]:today:font-bold [&::part(calendar-day)]:selected:bg-orange-500 [&::part(calendar-day)]:selected:text-black [&::part(calendar-day)]:selected:font-bold [&::part(arrow-button)]:text-orange-500 [&::part(arrow-button)]:text-xl [&::part(arrow-button)]:p-2 [&::part(arrow-button)]:rounded-full [&::part(arrow-button)]:bg-orange-500/10 [&::part(arrow-button)]:hover:bg-orange-500/20 [&::part(arrow-button)]:hover:scale-125 [&::part(arrow-button)]:transition-all [&::part(button)]:bg-orange-500 [&::part(button)]:text-black [&::part(button)]:font-bold [&::part(button)]:rounded-lg [&::part(button)]:m-1 [&::part(button)]:px-6 [&::part(button)]:py-3 [&::part(button)]:hover:bg-orange-400 [&::part(button)]:hover:-translate-y-0.5 [&::part(button)]:hover:shadow-lg [&::part(button)]:hover:shadow-orange-500/30 [&::part(button)]:transition-all [&::part(button)]:cancel:bg-gray-600 [&::part(button)]:cancel:text-white [&::part(button)]:cancel:hover:bg-gray-500 [&::part(button)]:cancel:hover:shadow-gray-500/30 [&::part(title)]:text-white [&::part(title)]:text-xl [&::part(title)]:font-bold [&::part(title)]:text-center [&::part(title)]:p-4">
+    </ion-datetime>
+  </div>
 </div>
 
 
@@ -139,34 +174,6 @@
     </ion-button>
   </ion-footer>
 
-  <!-- Modal pour le sélecteur de date -->
-  <ion-modal [isOpen]="isDateModalOpen" (willDismiss)="closeDateModal()" class="w-[90%] h-[80%] rounded-lg" style="--background: rgba(0, 0, 0, 0.5); --backdrop-opacity: 0.5;">
-    <ion-header>
-      <ion-toolbar color="dark" class="bg-gray-900" style="--background: #1a1a1a; --color: #fff;">
-        <ion-title class="text-white text-lg font-bold">
-          {{ selectedDateType === 'start' ? 'Sélectionner la date de début' : 'Sélectionner la date de fin' }}
-        </ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="closeDateModal()" class="text-white" style="--color: #fff;">
-            <ion-icon name="close" class="text-xl"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="bg-gray-800" style="--background: #2a2a2a;">
-      <div class="p-4">
-        <ion-datetime
-          [value]="selectedDateType === 'start' ? reservation.startDate.toISOString() : reservation.endDate.toISOString()"
-          presentation="date"
-          locale="fr-FR"
-          (ionChange)="onDateSelected($event)"
-          [min]="getTodayDate()"
-          [max]="selectedDateType === 'start' ? (reservation.endDate ? reservation.endDate.toISOString().split('T')[0] : undefined) : undefined"
-          class="bg-gray-700 text-white"
-          style="--background: #3a3a3a; --color: #fff;"
-          showDefaultButtons="true">
-        </ion-datetime>
-      </div>
-    </ion-content>
-  </ion-modal>
+
+
 </ion-content>
