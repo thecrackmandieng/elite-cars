@@ -7,17 +7,11 @@
 </ion-header>
 
 <ion-content class="bg-black" style="--background: #000;">
-  <!-- Section voitures favorites -->
+  <!-- Section toutes les voitures -->
   <div class="p-4 bg-black">
-    <div *ngIf="favoriteCars.length === 0" class="text-center p-8">
-      <ion-icon name="heart-outline" size="large" class="text-gray-400 mb-4" style="font-size: 48px; color: #9ca3af;"></ion-icon>
-      <p class="text-gray-400 text-lg">Aucune voiture en favoris</p>
-      <p class="text-gray-500">Ajoutez des voitures à vos favoris depuis la page d'accueil</p>
-    </div>
-
-    <div class="grid grid-cols-2 gap-4" *ngIf="favoriteCars.length > 0">
+    <div class="grid grid-cols-2 gap-4">
       <div
-        *ngFor="let car of favoriteCars"
+        *ngFor="let car of allCars"
         class="bg-gray-800 rounded-lg overflow-hidden relative"
       >
         <!-- Car Image -->
@@ -47,6 +41,7 @@
         </div>
       </div>
     </div>
+
+   
   </div>
 </ion-content>
-

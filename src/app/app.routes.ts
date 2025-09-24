@@ -32,6 +32,11 @@ export const routes: Routes = [
           import('./reservation/confirmation.component').then((m) => m.ConfirmationComponent),
       },
       {
+        path: 'search',
+        loadComponent: () =>
+          import('./search/search.component').then((m) => m.SearchComponent),
+      },
+      {
         path: '',
         redirectTo: '/example/home',
         pathMatch: 'full',

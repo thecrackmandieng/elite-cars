@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar class="bg-dark" style="--background: #1a1a1a; --color: #fff;">
+    <ion-title class="text-white text-center italic font-bold">
+      Rechercher par marques
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-dark" style="--background: #000;">
+<!-- Brand Filter Cards -->
+<div class="p-4 w-max mx-auto">
+  <div class="grid grid-cols-4 gap-2 w-full">
+    <div class="flex scroll-x-auto w-full space-x-2 pb-2">
+      <div
+        *ngFor="let brand of allBrands"
+        class="brand-card rounded-xl cursor-pointer transition-all duration-300 min-h-[80px] w-[120px] flex items-center justify-center text-center"
+        [class.bg-orange-500]="selectedBrand === brand"
+        [class.text-white]="selectedBrand === brand"
+        [class.bg-gray-800]="selectedBrand !== brand"
+        [class.text-white]="selectedBrand !== brand"
+        [class.scale-105]="selectedBrand === brand"
+        [class.transform]="selectedBrand === brand"
+        (click)="onBrandClick(brand)"
+      >
+        <div class="p-3">
+          <ion-icon name="car" class="text-2xl mb-1 block"></ion-icon>
+          <span class="text-xs font-medium block">{{ brand }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Car List -->
+  <div class="px-4 pb-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div
+        *ngFor="let car of filteredCars; trackBy: trackByFn"
+        class="bg-gray-900 rounded-xl overflow-hidden cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
+        (click)="onCarClick(car)"
+      >
+        <div class="relative h-[200px]">
+          <img [src]="car.image" [alt]="car.name" class="w-full h-full object-cover" />
+          <ion-button
+            fill="clear"
+            class="absolute top-3 right-3 w-10 h-10 rounded-full bg-black bg-opacity-50"
+            (click)="toggleFavorite(car, $event)"
+          >
+            <ion-icon
+              [name]="car.isFavorite ? 'heart' : 'heart-outline'"
+              class="text-xl"
+              [class.text-orange-500]="car.isFavorite"
+              [class.text-white]="!car.isFavorite"
+            ></ion-icon>
+          </ion-button>
+        </div>
+        <div class="p-4">
+          <div>
+            <h3 class="text-white text-lg font-semibold mb-2">{{ car.name }}</h3>
+            <div class="flex items-center text-gray-300 text-sm mb-3 flex-wrap">
+              <span>{{ car.specifications }}</span>
+              <span class="mx-2">•</span>
+              <span>Auto</span>
+              <span class="mx-2">•</span>
+              <span>Essence</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-orange-500 font-semibold text-base">{{ car.price.toLocaleString() }} FCFA/Jour</span>
+              <div class="flex items-center">
+                <ion-icon name="star" class="text-yellow-400 text-sm mr-1" *ngFor="let i of [1,2,3,4,5]"></ion-icon>
+                <span class="text-gray-300 text-xs ml-1">{{ car.rating.toFixed(1) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

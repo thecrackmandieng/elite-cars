@@ -9,19 +9,19 @@ import { CommonModule } from '@angular/common';
   templateUrl: './favorites.component.html',
   styleUrls: ['./favorites.component.scss'],
   standalone: true,
-  imports: [IonHeader, IonTitle, IonToolbar, IonContent, CommonModule, IonIcon],
+  imports: [ IonHeader, IonTitle, IonToolbar, IonContent, CommonModule, IonIcon],
 })
 export class FavoritesComponent implements OnInit {
-  favoriteCars: Car[] = [];
+  allCars: Car[] = [];
 
   constructor(private carService: CarService) { }
 
   ngOnInit() {
-    this.loadFavoriteCars();
+    this.loadAllCars();
   }
 
-  loadFavoriteCars() {
-    this.favoriteCars = this.carService.getFavoriteCars();
+  loadAllCars() {
+    this.allCars = this.carService.getAllCars();
   }
 
   onCarClick(car: Car) {
@@ -31,6 +31,8 @@ export class FavoritesComponent implements OnInit {
 
   toggleFavorite(car: Car) {
     this.carService.toggleFavorite(car.id);
-    this.loadFavoriteCars(); // Refresh the list
+    this.loadAllCars(); // Refresh the list
   }
+
+
 }

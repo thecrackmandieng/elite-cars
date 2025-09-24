@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { IonIcon, IonTabBar, IonTabButton, IonTabs, LoadingController, IonTab, IonRouterOutlet } from '@ionic/angular/standalone';
+import { IonIcon, IonTabBar, IonTabButton, IonTabs, LoadingController } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { home, heart, heartOutline } from 'ionicons/icons';
   templateUrl: 'example.component.html',
   styleUrls: ['example.component.scss'],
   standalone: true,
-  imports: [IonRouterOutlet, IonTab,  IonIcon, IonTabBar, IonTabButton, IonTabs, RouterModule, CommonModule],
+  imports: [IonIcon, IonTabBar, IonTabButton, IonTabs, RouterModule, CommonModule],
 })
 export class ExampleComponent implements OnInit {
   shouldHideTabs: boolean = false;
@@ -48,6 +48,8 @@ export class ExampleComponent implements OnInit {
       this.router.navigate(['/example/favorites']);
     } else if (tabName === 'home') {
       this.router.navigate(['/example/home']);
+    } else if (tabName === 'search') {
+      this.router.navigate(['/example/search']);
     }
   }
 
