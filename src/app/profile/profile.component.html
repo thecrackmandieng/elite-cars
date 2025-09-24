@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar class="bg-dark text-white border-b border-gray-700">
+    <ion-title class="text-white text-center font-semibold">Profil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" class="text-white">
+        <ion-icon name="share-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg-dark text-white">
+  <div class="p-6">
+    <!-- User Info Section -->
+    <div class="text-center mb-8">
+      <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg">
+        <span class="text-white text-2xl font-bold">MD</span>
+      </div>
+      <h2 class="text-white text-xl font-semibold mb-2">MD</h2>
+      <p class="text-gray-400 text-sm">Client - il y a quelques secondes</p>
+    </div>
+
+    <!-- Menu Items -->
+    <div class="space-y-2">
+      <ion-item class="bg-gray-800 text-white border-none rounded-lg transition-all duration-200 hover:bg-gray-700 cursor-pointer" (click)="onMenuItemClick('settings')">
+        <ion-label>
+          <h3 class="text-white font-medium">Mes paramètres</h3>
+        </ion-label>
+        <ion-icon name="chevron-forward" slot="end" class="text-gray-400"></ion-icon>
+      </ion-item>
+
+      <ion-item class="bg-gray-800 text-white border-none rounded-lg transition-all duration-200 hover:bg-gray-700 cursor-pointer" (click)="onMenuItemClick('history')">
+        <ion-label>
+          <h3 class="text-white font-medium">Elite car historiques</h3>
+        </ion-label>
+        <ion-icon name="chevron-forward" slot="end" class="text-gray-400"></ion-icon>
+      </ion-item>
+
+      <ion-item class="bg-gray-800 text-white border-none rounded-lg transition-all duration-200 hover:bg-gray-700 cursor-pointer" (click)="onMenuItemClick('about')">
+        <ion-label>
+          <h3 class="text-white font-medium">Qui sommes-nous</h3>
+        </ion-label>
+        <ion-icon name="chevron-forward" slot="end" class="text-gray-400"></ion-icon>
+      </ion-item>
+
+      <ion-item class="bg-gray-800 text-white border-none rounded-lg transition-all duration-200 hover:bg-gray-700 cursor-pointer" (click)="onMenuItemClick('delete')">
+        <ion-label>
+          <h3 class="text-white font-medium">Demande de suppression de compte</h3>
+        </ion-label>
+        <ion-icon name="chevron-forward" slot="end" class="text-gray-400"></ion-icon>
+      </ion-item>
+    </div>
+  </div>
+</ion-content>

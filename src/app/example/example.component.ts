@@ -50,6 +50,8 @@ export class ExampleComponent implements OnInit {
       this.router.navigate(['/example/home']);
     } else if (tabName === 'search') {
       this.router.navigate(['/example/search']);
+    } else if (tabName === 'profile') {
+      this.router.navigate(['/example/profile']);
     }
   }
 

@@ -37,6 +37,11 @@ export const routes: Routes = [
           import('./search/search.component').then((m) => m.SearchComponent),
       },
       {
+        path: 'profile',
+        loadComponent: () =>
+          import('./profile/profile.component').then((m) => m.ProfileComponent),
+      },
+      {
         path: '',
         redirectTo: '/example/home',
         pathMatch: 'full',
