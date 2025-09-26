@@ -27,7 +27,6 @@ import { car, star } from 'ionicons/icons';
     IonContent,
     IonButton,
     IonIcon
-
   ],
 })
 export class SearchComponent implements OnInit {
@@ -54,7 +53,8 @@ export class SearchComponent implements OnInit {
     if (brand === 'Tout') {
       this.filteredCars = [...this.cars];
     } else {
-      this.filteredCars = this.cars.filter(car => car.marques === brand);
+      // ✅ correction : utiliser includes car marques est un tableau
+      this.filteredCars = this.cars.filter(car => car.marques.includes(brand));
     }
   }
 

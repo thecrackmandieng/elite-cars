@@ -11,13 +11,13 @@
 
 <!-- Boutons filtres -->
 <div class="bg-black flex justify-center gap-4 py-4">
-  <ion-button id="open-type" fill="outline" shape="round" class="text-white border-gray-600">
+  <ion-button (click)="toggleType()" fill="outline" shape="round" class="text-white border-gray-600">
     Véhicule
   </ion-button>
-  <ion-button id="open-marque" fill="outline" shape="round" class="text-white border-gray-600">
+  <ion-button (click)="toggleMarque()" fill="outline" shape="round" class="text-white border-gray-600">
     Marque
   </ion-button>
-  <ion-button id="open-prix" fill="outline" shape="round" class="text-white border-gray-600">
+  <ion-button (click)="togglePrix()" fill="outline" shape="round" class="text-white border-gray-600">
     Prix
   </ion-button>
 </div>
@@ -39,118 +39,120 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal Type de véhicule -->
+  <ion-modal #modalType [canDismiss]="canDismiss" [presentingElement]="presentingElement">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Type de véhicule</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="modalType.dismiss()">Fermer</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="bg-gray-900 text-white">
+        <div class="p-4">
+          <ion-searchbar
+            [(ngModel)]="searchType"
+            (ionInput)="onSearchTypeChange()"
+            placeholder="Rechercher un type..."
+            class="mb-4"
+          ></ion-searchbar>
+          <div class="mb-4 text-white">
+            <p><strong>Types disponibles ({{ filteredTypesVehicules.length }}) :</strong></p>
+            <div *ngFor="let type of filteredTypesVehicules; trackBy: trackByFn" class="flex items-center mb-2">
+              <ion-checkbox
+                [checked]="selectedType.includes(type)"
+                (ionChange)="selectType(type)"
+                class="mr-2"
+              ></ion-checkbox>
+              <span class="text-lg">{{ type }}</span>
+            </div>
+            <div *ngIf="filteredTypesVehicules.length === 0" class="text-gray-400">
+              Aucun type trouvé
+            </div>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal Marques -->
+  <ion-modal #modalMarque [canDismiss]="canDismiss" [presentingElement]="presentingElement">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Marque</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="modalMarque.dismiss()">Fermer</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="bg-gray-900 text-white">
+        <div class="p-4">
+          <ion-searchbar
+            [(ngModel)]="searchMarque"
+            (ionInput)="onSearchMarqueChange()"
+            placeholder="Rechercher une marque..."
+            class="mb-4"
+          ></ion-searchbar>
+          <div class="mb-4 text-white">
+            <p><strong>Marques disponibles ({{ filteredMarques.length }}) :</strong></p>
+            <div *ngFor="let marque of filteredMarques; trackBy: trackByFn" class="flex items-center mb-2">
+              <ion-checkbox
+                [checked]="selectedMarque.includes(marque)"
+                (ionChange)="selectMarque(marque)"
+                class="mr-2"
+              ></ion-checkbox>
+              <span class="text-lg">{{ marque }}</span>
+            </div>
+            <div *ngIf="filteredMarques.length === 0" class="text-gray-400">
+              Aucune marque trouvée
+            </div>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal Prix -->
+  <ion-modal #modalPrix [canDismiss]="canDismiss" [presentingElement]="presentingElement">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Prix</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="modalPrix.dismiss()">Fermer</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="bg-gray-900 text-white">
+        <div class="p-4">
+          <ion-searchbar
+            [(ngModel)]="searchPrix"
+            (ionInput)="onSearchPrixChange()"
+            placeholder="Rechercher un prix..."
+            class="mb-4"
+          ></ion-searchbar>
+          <div class="mb-4 text-white">
+            <p><strong>Prix disponibles ({{ filteredPrixs.length }}) :</strong></p>
+            <div *ngFor="let prix of filteredPrixs; trackBy: trackByFn" class="flex items-center mb-2">
+              <ion-checkbox
+                [checked]="selectedPrix.includes(prix)"
+                (ionChange)="selectPrix(prix)"
+                class="mr-2"
+              ></ion-checkbox>
+              <span class="text-lg">{{ prix.toLocaleString() }} CFA</span>
+            </div>
+            <div *ngIf="filteredPrixs.length === 0" class="text-gray-400">
+              Aucun prix trouvé
+            </div>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
 
-<!-- Modal Type de véhicule -->
-<ion-modal #modalType trigger="open-type" [initialBreakpoint]="0.75" [breakpoints]="[0,0.5,0.75,1]">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Type de véhicule</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="modalType.dismiss()">Fermer</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="bg-gray-900 text-white">
-      <div class="p-4">
-        <ion-searchbar
-          [(ngModel)]="searchType"
-          (ionInput)="onSearchTypeChange()"
-          placeholder="Rechercher un type..."
-          class="mb-4"
-        ></ion-searchbar>
-        <div class="mb-4 text-white">
-          <p><strong>Types disponibles ({{ filteredTypesVehicules.length }}) :</strong></p>
-          <div *ngFor="let type of filteredTypesVehicules; trackBy: trackByFn" class="flex items-center mb-2">
-            <ion-checkbox
-              [checked]="selectedType.includes(type)"
-              (ionChange)="selectType(type)"
-              class="mr-2"
-            ></ion-checkbox>
-            <span class="text-lg">{{ type }}</span>
-          </div>
-          <div *ngIf="filteredTypesVehicules.length === 0" class="text-gray-400">
-            Aucun type trouvé
-          </div>
-        </div>
-      </div>
-    </ion-content>
-  </ng-template>
-</ion-modal>
 
-<!-- Modal Marques -->
-<ion-modal #modalMarque trigger="open-marque" [initialBreakpoint]="0.75" [breakpoints]="[0,0.5,0.75,1]">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Marque</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="modalMarque.dismiss()">Fermer</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="bg-gray-900 text-white">
-      <div class="p-4">
-        <ion-searchbar
-          [(ngModel)]="searchMarque"
-          (ionInput)="onSearchMarqueChange()"
-          placeholder="Rechercher une marque..."
-          class="mb-4"
-        ></ion-searchbar>
-        <div class="mb-4 text-white">
-          <p><strong>Marques disponibles ({{ filteredMarques.length }}) :</strong></p>
-          <div *ngFor="let marque of filteredMarques; trackBy: trackByFn" class="flex items-center mb-2">
-            <ion-checkbox
-              [checked]="selectedMarque.includes(marque)"
-              (ionChange)="selectMarque(marque)"
-              class="mr-2"
-            ></ion-checkbox>
-            <span class="text-lg">{{ marque }}</span>
-          </div>
-          <div *ngIf="filteredMarques.length === 0" class="text-gray-400">
-            Aucune marque trouvée
-          </div>
-        </div>
-      </div>
-    </ion-content>
-  </ng-template>
-</ion-modal>
-
-<!-- Modal Prix -->
-<ion-modal #modalPrix trigger="open-prix" [initialBreakpoint]="0.75" [breakpoints]="[0,0.5,0.75,1]">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Prix</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="modalPrix.dismiss()">Fermer</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="bg-gray-900 text-white">
-      <div class="p-4">
-        <ion-searchbar
-          [(ngModel)]="searchPrix"
-          (ionInput)="onSearchPrixChange()"
-          placeholder="Rechercher un prix..."
-          class="mb-4"
-        ></ion-searchbar>
-        <div class="mb-4 text-white">
-          <p><strong>Prix disponibles ({{ filteredPrixs.length }}) :</strong></p>
-          <div *ngFor="let prix of filteredPrixs; trackBy: trackByFn" class="flex items-center mb-2">
-            <ion-checkbox
-              [checked]="selectedPrix.includes(prix)"
-              (ionChange)="selectPrix(prix)"
-              class="mr-2"
-            ></ion-checkbox>
-            <span class="text-lg">{{ prix.toLocaleString() }} CFA</span>
-          </div>
-          <div *ngIf="filteredPrixs.length === 0" class="text-gray-400">
-            Aucun prix trouvé
-          </div>
-        </div>
-      </div>
-    </ion-content>
-  </ng-template>
-</ion-modal>

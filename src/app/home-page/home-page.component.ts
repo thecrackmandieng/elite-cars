@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -10,10 +10,7 @@ import {
   IonModal,
   IonButtons,
   IonCheckbox,
-  IonSearchbar,
-  IonList,
-  IonItem,
-  IonLabel
+  IonSearchbar
 } from "@ionic/angular/standalone";
 import { CarService } from '../services/car.service';
 import { Car } from '../models/car.interface';
@@ -35,10 +32,13 @@ import { Car } from '../models/car.interface';
     IonButtons,
     IonCheckbox,
     IonSearchbar
-
   ],
 })
 export class HomePageComponent implements OnInit {
+  @ViewChild('modalType', { static: false }) modalType: any;
+  @ViewChild('modalMarque', { static: false }) modalMarque: any;
+  @ViewChild('modalPrix', { static: false }) modalPrix: any;
+
   cars: Car[] = [];
   typesVehicules: string[] = [];
   marques: string[] = [];
@@ -52,10 +52,13 @@ export class HomePageComponent implements OnInit {
   filteredTypesVehicules: string[] = [];
   filteredMarques: string[] = [];
   filteredPrixs: number[] = [];
+  canDismiss: boolean = true;
+  presentingElement: any = null;
 
   constructor(private carService: CarService, private cdr: ChangeDetectorRef) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.presentingElement = await document.querySelector('ion-content');
     this.cars = this.carService.getAllCars();
     this.typesVehicules = this.carService.getAllTypes();
     this.marques = this.carService.getAllMarques();
@@ -65,6 +68,19 @@ export class HomePageComponent implements OnInit {
     console.log('Types:', this.typesVehicules);
     console.log('Marques:', this.marques);
     console.log('Prixs:', this.prixs);
+  }
+
+  // Méthodes pour ouvrir les modals
+  async toggleType() {
+    await this.modalType.present();
+  }
+
+  async toggleMarque() {
+    await this.modalMarque.present();
+  }
+
+  async togglePrix() {
+    await this.modalPrix.present();
   }
 
   onCarClick(car: Car) {
@@ -113,6 +129,24 @@ export class HomePageComponent implements OnInit {
     this.updateFilteredData();
   }
 
+  updateFilteredData(): void {
+    this.filteredTypesVehicules = this.filterList(this.typesVehicules, this.searchType);
+    this.filteredMarques = this.filterList(this.marques, this.searchMarque);
+    this.filteredPrixs = !this.searchPrix
+      ? [...this.prixs]
+      : this.prixs.filter(prix => prix.toString().includes(this.searchPrix));
+    this.cdr.detectChanges();
+  }
+
+  filterList(items: string[], search: string): string[] {
+    if (!search) return [...items];
+    return items.filter(item => item.toLowerCase().includes(search.toLowerCase()));
+  }
+
+  trackByFn(index: number, item: any): any {
+    return item;
+  }
+
   get filteredCars(): Car[] {
     let filtered = [...this.cars];
     if (this.selectedType.length > 0) {
@@ -130,23 +164,5 @@ export class HomePageComponent implements OnInit {
       filtered = filtered.filter(car => car.price <= maxPrix);
     }
     return filtered;
-  }
-
-  updateFilteredData(): void {
-    this.filteredTypesVehicules = this.filterList(this.typesVehicules, this.searchType);
-    this.filteredMarques = this.filterList(this.marques, this.searchMarque);
-    this.filteredPrixs = !this.searchPrix
-      ? [...this.prixs]
-      : this.prixs.filter(prix => prix.toString().includes(this.searchPrix));
-    this.cdr.detectChanges();
-  }
-
-  filterList(items: string[], search: string): string[] {
-    if (!search) return [...items];
-    return items.filter(item => item.toLowerCase().includes(search.toLowerCase()));
-  }
-
-  trackByFn(index: number, item: any): any {
-    return item;
   }
 }

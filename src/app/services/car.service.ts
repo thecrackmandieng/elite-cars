@@ -17,7 +17,7 @@ export class CarService {
       zones: ['Dakar', 'Thiès'],
       options: ['Audio input', 'Gps', 'Radio', 'Wifi'],
       isFavorite: false,
-      marques: 'Renault'
+      marques: ['Renault'] // ✅ tableau
     },
     {
       id: 2,
@@ -30,7 +30,7 @@ export class CarService {
       zones: ['Dakar', 'Thiès'],
       options: ['Audio input', 'Gps', 'Radio', 'Wifi'],
       isFavorite: false,
-      marques: 'Peugeot'
+      marques: ['Peugeot']
     },
     {
       id: 3,
@@ -43,7 +43,7 @@ export class CarService {
       zones: ['Dakar', 'Thiès'],
       options: ['Audio input', 'Gps'],
       isFavorite: false,
-      marques: 'Audi'
+      marques: ['Audi']
     },
     {
       id: 4,
@@ -56,7 +56,7 @@ export class CarService {
       zones: ['Dakar', 'Thiès'],
       options: ['Audio input', 'Gps'],
       isFavorite: false,
-      marques: 'BMW'
+      marques: ['BMW']
     }
   ];
 
@@ -81,20 +81,22 @@ export class CarService {
 
   // --- Filtres dynamiques ---
   getAllTypes(): string[] {
-    return Array.from(new Set(this.cars.map(car => car.specifications))).sort();
+    return [...new Set(this.cars.map(car => car.specifications))].sort();
   }
 
   getAllMarques(): string[] {
-    return Array.from(new Set(this.cars.map(car => car.marques).filter((marque): marque is string => marque !== undefined))).sort();
+    return [...new Set(
+      this.cars.reduce((acc: string[], car: Car) => acc.concat(car.marques || []), [])
+    )].sort();
   }
 
   getAllPrix(): number[] {
-    return Array.from(new Set(this.cars.map(car => car.price))).sort((a, b) => a - b);
+    return [...new Set(this.cars.map(car => car.price))].sort((a, b) => a - b);
   }
 
   // --- Favoris ---
   toggleFavorite(carId: number): void {
-    const car = this.cars.find(c => c.id === carId);``
+    const car = this.cars.find(c => c.id === carId);
     if (car) {
       car.isFavorite = !car.isFavorite;
       this.saveFavoritesToStorage();
@@ -117,6 +119,7 @@ export class CarService {
     }
   }
 
+  // --- LocalStorage ---
   private saveFavoritesToStorage(): void {
     const favorites = this.cars.filter(car => car.isFavorite).map(car => car.id);
     localStorage.setItem(this.FAVORITES_KEY, JSON.stringify(favorites));

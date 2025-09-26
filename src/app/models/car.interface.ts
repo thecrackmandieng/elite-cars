@@ -10,7 +10,7 @@ export interface Car {
   options: string[];
   isFavorite?: boolean;
   category?: string;
-  marques?: string;
+  marques: string[]; // ✅ devient un tableau
 }
 
 export interface CarOption {
