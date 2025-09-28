@@ -1,3 +1,4 @@
-- [x] Update src/app/home-page/home-page.component.html to replace filter buttons and modals with ion-select for Véhicule, Marque, and Prix
-- [x] Update src/app/home-page/home-page.component.ts to remove modal and search related code, add IonSelect and IonSelectOption imports
-- [ ] Test that selections update the car list correctly
+- [x] Ajouter pt-6 aux ion-header dans tous les composants HTML pour descendre les headers
+- [x] Ajouter pb-8 aux ion-content dans tous les composants HTML pour éviter que les éléments en bas soient cachés
+- [x] Changer bg-dark à bg-black pour les arrière-plans
+- [ ] Tester sur mobile après rebuild

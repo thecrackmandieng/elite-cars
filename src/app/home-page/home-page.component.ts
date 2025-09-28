@@ -35,9 +35,9 @@ import { Car } from '../models/car.interface';
   ],
 })
 export class HomePageComponent implements OnInit {
-  @ViewChild('modalType', { static: false }) modalType: any;
-  @ViewChild('modalMarque', { static: false }) modalMarque: any;
-  @ViewChild('modalPrix', { static: false }) modalPrix: any;
+  @ViewChild('modalType', { static: false }) modalType!: IonModal;
+  @ViewChild('modalMarque', { static: false }) modalMarque!: IonModal;
+  @ViewChild('modalPrix', { static: false }) modalPrix!: IonModal;
 
   cars: Car[] = [];
   typesVehicules: string[] = [];
@@ -53,21 +53,19 @@ export class HomePageComponent implements OnInit {
   filteredMarques: string[] = [];
   filteredPrixs: number[] = [];
   canDismiss: boolean = true;
-  presentingElement: any = null;
 
   constructor(private carService: CarService, private cdr: ChangeDetectorRef) {}
 
   async ngOnInit() {
-    this.presentingElement = await document.querySelector('ion-content');
     this.cars = this.carService.getAllCars();
     this.typesVehicules = this.carService.getAllTypes();
     this.marques = this.carService.getAllMarques();
     this.prixs = this.carService.getAllPrix();
     this.updateFilteredData();
-    console.log('Cars loaded:', this.cars);
-    console.log('Types:', this.typesVehicules);
-    console.log('Marques:', this.marques);
-    console.log('Prixs:', this.prixs);
+    // Dummy data for testing
+    this.filteredTypesVehicules = ['SUV', 'Berline', 'Citadine'];
+    this.filteredMarques = ['Renault', 'Peugeot', 'Audi', 'BMW'];
+    this.filteredPrixs = [7000, 10000, 40000, 90000];
   }
 
   // Méthodes pour ouvrir les modals
